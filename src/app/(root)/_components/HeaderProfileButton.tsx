@@ -1,6 +1,7 @@
 "use client";
 import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { User } from "lucide-react";
+import ModernButton from "../../../utils/ModernButton";
 
 const HeaderProfileButton = () => {
   return (
@@ -17,9 +18,7 @@ const HeaderProfileButton = () => {
 
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="bg-blue-500 px-4 py-1.5 rounded-lg cursor-pointer">
-            Sign In
-          </button>
+          <ModernButton text="Sign In"/>
         </SignInButton>
       </SignedOut>
     </>

@@ -7,7 +7,9 @@ import Image from "next/image";
 import { ChevronDownIcon, Lock, Sparkles } from "lucide-react";
 import useMounted from "@/hooks/useMounted";
 
-const LanguageSelector = () => {
+const FREE_LANGUAGES = ["javascript", "cpp", "c", "python", "java"];
+
+const LanguageSelector = ({ hasAccess }: { hasAccess: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const mounted = useMounted();
   const language = useCodeEditorStore((state) => state.language);
@@ -39,8 +41,15 @@ const LanguageSelector = () => {
       <motion.div
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className={`group relative flex items-center gap-3 px-4 py-2.5 bg-[#1e1e2e]/80 rounded-lg transition-all duration-200 border border-gray-800/50 hover:border-gray-700 cursor-pointer`}
+        onClick={() => {
+          // Only open dropdown if user has access or current language is free
+          if (hasAccess || FREE_LANGUAGES.includes(language)) {
+            setIsOpen(!isOpen);
+          }
+        }}
+        className={`group relative flex items-center gap-3 px-4 py-2.5 bg-[#1e1e2e]/80 rounded-lg transition-all duration-200 border border-gray-800/50 hover:border-gray-700
+    ${!hasAccess && !FREE_LANGUAGES.includes(language) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+  `}
       >
         {/* Decoration Only */}
         <div
@@ -82,7 +91,8 @@ const LanguageSelector = () => {
               </div>
               <div className="max-h-[200px] overflow-y-auto overflow-x-clip">
                 {Object.values(LANGUAGE_CONFIG).map((lang, index) => {
-                  const isLocked = lang.id !== "javascript";
+                  const isLocked =
+                    !hasAccess && !FREE_LANGUAGES.includes(lang.id);
                   return (
                     <motion.div
                       key={lang.id}
@@ -92,8 +102,14 @@ const LanguageSelector = () => {
                       className="relative group px-2"
                     >
                       <button
-                        className={`relative w-full flex items-center gap-3 py-2.5 px-2 cursor-pointer rounded-lg transition-all duration-200 ${language == lang.id ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}`}
-                        onClick={() => handleLanguageSelect(lang.id)}
+                        className={`relative w-full flex items-center gap-3 py-2.5 px-2 rounded-lg transition-all duration-200
+    ${language == lang.id ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}
+    ${isLocked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+  `}
+                        onClick={() =>
+                          !isLocked && handleLanguageSelect(lang.id)
+                        }
+                        disabled={isLocked}
                       >
                         {/* Decoration Only */}
                         <div
@@ -138,6 +154,10 @@ const LanguageSelector = () => {
 
                         {language === lang.id && (
                           <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+                        )}
+
+                        {isLocked && (
+                          <Lock className="w-4 h-4 text-gray-400 ml-2" />
                         )}
                       </button>
                     </motion.div>
