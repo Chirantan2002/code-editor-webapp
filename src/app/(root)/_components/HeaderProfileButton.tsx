@@ -6,7 +6,14 @@ import ModernButton from "../../../utils/ModernButton";
 const HeaderProfileButton = () => {
   return (
     <>
-      <UserButton>
+      <UserButton
+        appearance={{
+          elements: {
+            avatarBox: "w-5 h-5",
+            avatarImage: "w-5 h-5",
+          },
+        }}
+      >
         <UserButton.MenuItems>
           <UserButton.Link
             label="Profile"
@@ -18,7 +25,7 @@ const HeaderProfileButton = () => {
 
       <SignedOut>
         <SignInButton mode="modal">
-          <ModernButton text="Sign In"/>
+          <ModernButton text="Sign In" />
         </SignInButton>
       </SignedOut>
     </>
