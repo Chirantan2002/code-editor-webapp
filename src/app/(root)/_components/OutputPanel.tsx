@@ -15,6 +15,7 @@ const OutputPanel = () => {
   const error = useCodeEditorStore((state) => state.error);
   const isRunning = useCodeEditorStore((state) => state.isRunning);
   const [isCopied, setIsCopied] = useState(false);
+  const [userInput, setUserInput] = useState("");
 
   const hasContent = output || error || isRunning;
 

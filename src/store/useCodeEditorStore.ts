@@ -71,7 +71,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
       });
     },
 
-    runCode: async () => {
+    runCode: async (input?: string) => {
       const { language, getCode } = get();
       const code = getCode();
 
@@ -93,6 +93,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
             language: runtime.language,
             version: runtime.version,
             files: [{ content: code }],
+            // stdin: input || "",
           }),
         });
 

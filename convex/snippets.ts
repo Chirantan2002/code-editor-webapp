@@ -109,10 +109,80 @@ export const starSnippet = mutation({
   },
 });
 
+export const addComment = mutation({
+  args: {
+    snippetId: v.id("snippets"),
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("User is unauthorized");
+    const user = await ctx.db
+      .query("users")
+      .withIndex("byUserId")
+      .filter((q) => q.eq(q.field("userId"), identity.subject))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    return await ctx.db.insert("snippetComments", {
+      snippetId: args.snippetId,
+      userId: identity.subject,
+      userName: user.name,
+      content: args.content,
+    });
+  },
+});
+
+export const deleteComment = mutation({
+  args: {
+    commentId: v.id("snippetComments"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const comment = await ctx.db.get(args.commentId);
+    if (!comment) throw new Error("Comment not found");
+
+    if (comment.userId !== identity.subject) {
+      throw new Error("Not authorized to delete this comment");
+    }
+
+    await ctx.db.delete(args.commentId);
+  },
+});
+
 export const getSnippets = query({
   handler: async (ctx) => {
     const snippets = await ctx.db.query("snippets").order("desc").collect();
     return snippets;
+  },
+});
+
+export const getSnippetById = query({
+  args: {
+    snippetId: v.id("snippets"),
+  },
+  handler: async (ctx, args) => {
+    const snippet = await ctx.db.get(args.snippetId);
+    if (!snippet) throw new Error("Snippet not found");
+    return snippet;
+  },
+});
+
+export const getCommentsBySnippetId = query({
+  args: {
+    snippetId: v.id("snippets"),
+  },
+  handler: async (ctx, args) => {
+    const comments = await ctx.db
+      .query("snippetComments")
+      .withIndex("bySnippetId")
+      .filter((q) => q.eq(q.field("snippetId"), args.snippetId))
+      .order("desc")
+      .collect();
+    return comments;
   },
 });
 

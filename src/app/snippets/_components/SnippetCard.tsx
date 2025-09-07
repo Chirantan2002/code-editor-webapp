@@ -7,7 +7,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, Star, Trash2, User } from "lucide-react";
+import { Clock, Trash2, User } from "lucide-react";
+import StarButton from "@/components/StarButton";
 
 const SnippetCard = ({
   snippet,
@@ -94,8 +95,7 @@ const SnippetCard = ({
                 className="absolute top-5 right-5 z-10 flex gap-4 items-center"
                 onClick={(e) => e.preventDefault()}
               >
-                {/* <StarButton snippetId={snippet._id} /> */}
-                <Star />
+                <StarButton snippetId={snippet._id} />
 
                 {user?.id === snippet.userId && (
                   <button
@@ -105,12 +105,12 @@ const SnippetCard = ({
                     }}
                     disabled={isDeleting}
                     className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-200
-    ${
-      isDeleting
-        ? "bg-red-500/20 text-red-400 cursor-not-allowed"
-        : "bg-gray-500/10 text-gray-400 hover:bg-red-500/10 hover:text-red-400"
-    }
-  `}
+                      ${
+                        isDeleting
+                          ? "bg-red-500/20 text-red-400 cursor-not-allowed"
+                          : "bg-gray-500/10 text-gray-400 hover:bg-red-500/10 hover:text-red-400"
+                      }
+                    `}
                   >
                     {isDeleting ? (
                       <div className="size-3.5 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
