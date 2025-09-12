@@ -61,6 +61,8 @@ const CommentForm = ({ onSubmit, isSubmitting }: CommentFormProps) => {
               Tab key inserts spaces • Preview your comment before posting
             </div>
           </div>
+
+          {/* Comment Form Submit */}
           <button
             type="submit"
             disabled={isSubmitting || !comment.trim()}
