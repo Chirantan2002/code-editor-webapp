@@ -37,7 +37,7 @@ async function PricingPage() {
               <div className="absolute -inset-px bg-gradient-to-r from-blue-500 to-purple-500 blur-xl opacity-10" />
               <h1
                 className="relative text-5xl md:text-6xl lg:text-7xl font-semibold bg-gradient-to-r
-               from-gray-100 to-gray-300 text-transparent bg-clip-text mb-8"
+               from-[#40c9ff] to-[#e81cff] text-transparent bg-clip-text mb-8"
               >
                 Elevate Your <br />
                 Development Experience
@@ -54,7 +54,7 @@ async function PricingPage() {
             {ENTERPRISE_FEATURES.map((feature) => (
               <div
                 key={feature.label}
-                className="group relative bg-gradient-to-b from-[#12121a] to-[#0a0a0f] rounded-2xl p-6 hover:transform hover:scale-[1.02] transition-all duration-300"
+                className="group relative bg-gradient-to-b from-[#12121a] to-[#0a0a0f] rounded-2xl p-6 hover:transform hover:scale-[1.02] transition-all duration-300 hover:border-2 hover:border-[#40c9ff]/50 border-2 border-transparent"
               >
                 <div className="relative">
                   <div
@@ -104,7 +104,7 @@ async function PricingPage() {
                     <span className="text-xl text-gray-400">one-time</span>
                   </div>
                   <p className="text-gray-400 text-lg">
-                    Unlock the full potential of CodeCraft
+                    Unlock the full potential of Caret
                   </p>
                 </div>
 

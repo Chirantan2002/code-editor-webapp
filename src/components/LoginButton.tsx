@@ -3,15 +3,14 @@ import { LogIn } from "lucide-react";
 
 function LoginButton() {
   return (
-    <SignInButton mode="modal">
-      <button
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg
-             transition-all duration-200 font-medium shadow-lg shadow-blue-500/20"
-      >
-        <LogIn className="w-4 h-4 transition-transform" />
-        <span>Sign In</span>
-      </button>
-    </SignInButton>
+    <div className="flex items-center justify-center">
+      <SignInButton mode="modal">
+        <button className="inline-flex items-center gap-2 px-6 py-4 text-green-400 hover:bg-green-400 hover:text-black font-semibold border-2 border-green-400 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-in-out ml-auto cursor-pointer">
+          <LogIn className="w-4 h-4 transition-transform" />
+          <span className="tracking-wide">Sign In</span>
+        </button>
+      </SignInButton>
+    </div>
   );
 }
 export default LoginButton;
