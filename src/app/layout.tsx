@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Caret - Code Editor",
+  title: "Caret - The Code Editor",
   description: "Precise coding with sharp focus",
 };
 
