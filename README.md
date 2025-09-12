@@ -5,7 +5,6 @@ With built-in support for multiple programming languages, real-time snippet shar
 
 ![Caret Banner](public/vercel.svg)
 
-&nbsp;
 
 # 🌟 Features
 
