@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 import useMounted from "@/hooks/useMounted";
 import { useClerk } from "@clerk/nextjs";
 import { EditorViewSkeleton } from "./EditorViewSkeleton";
-import { Share } from "next/font/google";
 import ShareSnippetDialog from "./ShareSnippetDialog";
 
 const EditorPanel = () => {
@@ -99,14 +98,15 @@ const EditorPanel = () => {
               </div>
             </div>
 
+            {/* Reset Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.96 }}
               onClick={handleRefresh}
-              className="p-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors cursor-pointer"
+              className="p-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors cursor-pointer group"
               aria-label="Reset to default code"
             >
-              <RotateCcw className="size-4 text-gray-400" />
+              <RotateCcw className="size-4 text-gray-400 group-hover:animate-spin animation-duration-500 group-hover:text-white transition-all duration-300" />
             </motion.button>
 
             {/* Share Button */}

@@ -30,6 +30,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
 
   return {
     ...initialState,
+    userInput: "",
     output: "",
     isRunning: false,
     error: null,
@@ -71,9 +72,14 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
       });
     },
 
+    // 👇 added setter for stdin
+    setUserInput: (input: string) => set({ userInput: input }),
+
     runCode: async (input?: string) => {
       const { language, getCode } = get();
       const code = getCode();
+
+      if (get().isRunning) return;
 
       if (!code) {
         set({ error: "Please enter some code" });
@@ -93,7 +99,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
             language: runtime.language,
             version: runtime.version,
             files: [{ content: code }],
-            // stdin: input || "",
+            stdin: input || "",
           }),
         });
 

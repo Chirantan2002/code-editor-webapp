@@ -12,11 +12,11 @@ import { api } from "../../../../convex/_generated/api";
 
 const RunButton = () => {
   const { user } = useUser();
-  const { runCode, language, isRunning } = useCodeEditorStore();
+  const { runCode, language, isRunning, userInput } = useCodeEditorStore();
   const saveExecution = useMutation(api.codeExecutions.saveExecution);
 
   const handleRun = async () => {
-    await runCode();
+    await runCode(userInput);
     const result = getExecutionResult();
 
     if (user && result) {

@@ -9,21 +9,38 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import RunningCodeSkeleton from "./RunningCodeSkeleton";
+import toast from "react-hot-toast";
 
 const OutputPanel = () => {
   const output = useCodeEditorStore((state) => state.output);
   const error = useCodeEditorStore((state) => state.error);
   const isRunning = useCodeEditorStore((state) => state.isRunning);
-  const [isCopied, setIsCopied] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [isOutputCopied, setIsOutputCopied] = useState(false);
+  const [isInputCopied, setIsInputCopied] = useState(false);
+  const userInput = useCodeEditorStore((s) => s.userInput);
+  const setUserInput = useCodeEditorStore((s) => s.setUserInput);
 
-  const hasContent = output || error || isRunning;
+  const hasOutputContent = output || error || isRunning;
+  const hasInputContent = userInput !== "";
 
-  const handleCopy = async () => {
-    if (!hasContent) return;
-    await navigator.clipboard.writeText(output).then(() => setIsCopied(true));
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+  const handleOutputCopy = async () => {
+    if (!hasOutputContent) return;
+    await navigator.clipboard
+      .writeText(output)
+      .then(() => setIsOutputCopied(true));
+    setIsOutputCopied(true);
+    toast.success("Output copied to clipboard!"); // ✅ Calling toast here
+    setTimeout(() => setIsOutputCopied(false), 2000);
+  };
+
+  const handleInputCopy = async () => {
+    if (!hasInputContent) return;
+    await navigator.clipboard
+      .writeText(userInput)
+      .then(() => setIsInputCopied(true));
+    setIsInputCopied(true);
+    toast.success("Input copied to clipboard!"); // ✅ Calling toast here
+    setTimeout(() => setIsInputCopied(false), 2000);
   };
 
   return (
@@ -34,32 +51,75 @@ const OutputPanel = () => {
           <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#1e1e2e] ring-1 ring-gray-800/50">
             <Terminal className="w-4 h-4 text-blue-400/50" />
           </div>
-          <span className="text-sm font-medium text-gray-300">Output</span>
+          <span className="text-sm font-medium font-mono text-gray-300/80">
+            Input
+          </span>
         </div>
 
-        {hasContent && (
+        {hasInputContent && (
           <button
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-gray-400 hover:text-gray-300 transition-all bg-[#1e1e2e] rounded-lg ring-1 ring-gray-800/50 hover:ring-gray-700/50"
+            onClick={handleInputCopy}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-gray-400 hover:text-green-500 border-2 border-transparent hover:border-green-500 transition-all duration-300 ease-in-out bg-[#1e1e2e] rounded-lg ring-1 ring-gray-800/50 hover:ring-gray-700/50 cursor-pointer"
           >
-            {isCopied ? (
+            {isInputCopied ? (
               <>
                 <CheckCircle className="w-3.5 h-3.5" />
-                <span>Copied</span>
+                <span className="font-semibold tracking-wide">Copied</span>
               </>
             ) : (
               <>
                 <Copy className="w-3.5 h-3.5" />
-                <span>Copy</span>
+                <span className="font-semibold">Copy</span>
               </>
             )}
           </button>
         )}
       </div>
 
+      {/* Input Console */}
+      <div className="mb-3">
+        <textarea
+          placeholder="Enter input here..."
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          className="w-full h-24 p-2 rounded-lg bg-[#1e1e2e] text-gray-200 border border-[#313244] font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+        />
+      </div>
+
       {/* Output Area */}
       <div className="relative">
-        <div className="relative bg-[#1e1e2e]/50 backdrop-blur-sm border border-[#313244] rounded-xl p-4 h-[600px] overflow-auto font-mono text-sm">
+        {/* Header */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#1e1e2e] ring-1 ring-gray-800/50">
+              <Terminal className="w-4 h-4 text-blue-400/50" />
+            </div>
+            <span className="text-sm font-medium text-gray-300/80 font-mono">
+              Output
+            </span>
+          </div>
+          {hasOutputContent && (
+            <button
+              onClick={handleOutputCopy}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-gray-400 hover:text-green-500 border-2 border-transparent hover:border-green-500 transition-all duration-300 ease-in-out bg-[#1e1e2e] rounded-lg ring-1 ring-gray-800/50 hover:ring-gray-700/50 cursor-pointer"
+            >
+              {isOutputCopied ? (
+                <>
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span className="font-semibold tracking-wide">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span className="font-semibold">Copy</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
+        {/* <OutputPanelSkeleton /> */}
+        <div className="relative bg-[#1e1e2e]/50 backdrop-blur-sm border border-[#313244] rounded-xl p-4 h-[400px] overflow-auto font-mono text-sm">
           {isRunning ? (
             <RunningCodeSkeleton />
           ) : error ? (

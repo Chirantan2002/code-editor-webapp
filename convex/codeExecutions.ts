@@ -22,7 +22,14 @@ export const saveExecution = mutation({
       .filter((q) => q.eq(q.field("userId"), identity.subject))
       .first();
 
-    if (!user?.isPro && args.language !== "javascript") {
+    if (
+      !user?.isPro &&
+      args.language !== "javascript" &&
+      args.language !== "cpp" &&
+      args.language !== "python" &&
+      args.language !== "c" &&
+      args.language !== "java"
+    ) {
       throw new ConvexError("Pro subscription required to use this language");
     }
 

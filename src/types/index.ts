@@ -47,13 +47,15 @@ export interface CodeEditorState {
   fontSize: number;
   editor: monaco.editor.IStandaloneCodeEditor | null;
   executionResult: ExecutionResult | null;
+  userInput: string;
 
+  setUserInput: (input: string) => void;
   setEditor: (editor: monaco.editor.IStandaloneCodeEditor) => void;
   getCode: () => string;
   setLanguage: (language: string) => void;
   setTheme: (theme: string) => void;
   setFontSize: (fontSize: number) => void;
-  runCode: () => Promise<void>;
+  runCode: (input?: string) => Promise<void>; // ✅ accepts optional user input
 }
 
 export interface Snippet {

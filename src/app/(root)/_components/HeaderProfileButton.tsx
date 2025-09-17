@@ -1,9 +1,25 @@
 "use client";
-import { SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { User } from "lucide-react";
 import ModernButton from "../../../utils/ModernButton";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import useMounted from "@/hooks/useMounted";
 
 const HeaderProfileButton = () => {
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      // Redirect signed-in users to localhost:3000
+      router.push("http://localhost:3000");
+    }
+  }, [isSignedIn, router]);
+
+  const mounted = useMounted();
+  if (!mounted) return null;
+
   return (
     <>
       <UserButton
