@@ -13,7 +13,9 @@ const HeaderProfileButton = () => {
   useEffect(() => {
     if (isSignedIn) {
       // Redirect signed-in users to localhost:3000
-      router.push("http://localhost:3000");
+      const redirectUrl =
+        process.env.NEXT_PUBLIC_PRODUCTION_URI || "http://localhost:3000";
+      router.push(redirectUrl);
     }
   }, [isSignedIn, router]);
 
