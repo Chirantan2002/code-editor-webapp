@@ -10,6 +10,7 @@ import Image from "next/image";
 import SnippetCard from "./_components/SnippetCard";
 import type { Snippet } from "@/types";
 import DeleteSnippetModal from "./_components/DeleteModal";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 
 const SnippetsPage = () => {
   const snippets = useQuery(api.snippets.getSnippets);
@@ -63,8 +64,12 @@ const SnippetsPage = () => {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-sm text-gray-400 mb-6"
           >
-            <BookOpen className="w-4 h-4" />
-            Community Code Library
+            <AnimatedShinyText className="inline-flex items-center justify-center transition ease-out duration-300  space-x-2">
+              <BookOpen className="size-4" />
+              <span className="font-mono font-semibold">
+                Community Code Library
+              </span>
+            </AnimatedShinyText>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

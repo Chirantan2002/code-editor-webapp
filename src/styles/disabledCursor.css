@@ -1,0 +1,13 @@
+* {
+  cursor: none !important;
+}
+
+input,
+textarea {
+  cursor: text !important;
+}
+
+button,
+a {
+  cursor: pointer !important;
+}
