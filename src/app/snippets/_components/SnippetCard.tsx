@@ -9,6 +9,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Clock, Trash2, User } from "lucide-react";
 import StarButton from "@/components/StarButton";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
 
 const SnippetCard = ({
   snippet,
@@ -44,6 +46,10 @@ const SnippetCard = ({
       document.body.style.overflow = "";
     };
   }, [showConfirm]);
+
+  useEffect(() => {
+    hljs.highlightAll();
+  }, [snippet.code, snippet.language]);
 
   return (
     <motion.div
@@ -142,8 +148,10 @@ const SnippetCard = ({
 
               <div className="relative group/code">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/15 to-purple-500/5 rounded-lg opacity-0 group-hover/code:opacity-100 transition-all" />
-                <pre className="relative bg-black/30 rounded-lg p-4 overflow-hidden text-sm text-gray-300 font-mono line-clamp-3">
-                  {snippet.code}
+                <pre className="relative bg-black/30 rounded-lg p-4 overflow-hidden text-sm text-gray-300 font-mono line-clamp-3 whitespace-pre-wrap break-words max-h-28">
+                  <code className={`language-${snippet.language} overflow-hidden`}>
+                    {snippet.code}
+                  </code>
                 </pre>
               </div>
             </div>

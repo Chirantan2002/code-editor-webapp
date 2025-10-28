@@ -1,3 +1,4 @@
+"use client";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CopyButton from "./CopyButton";
@@ -15,8 +16,14 @@ const CodeBlock = ({ language, code }: { language: string; code: string }) => {
       <div className="flex items-center justify-between px-4 py-2 bg-[#ffffff08]">
         {/* language indicator with icon */}
         <div className="flex items-center gap-2">
-          <Image src={`/${language}.png`} alt={language} className="size-4 object-contain" />
-          <span className="text-sm text-gray-400">{language || "plaintext"}</span>
+          <Image
+            src={`/${language}.png`}
+            alt={language}
+            className="size-4 object-contain"
+          />
+          <span className="text-sm text-gray-400">
+            {language || "plaintext"}
+          </span>
         </div>
         {/* button to copy code to clipboard */}
         <CopyButton code={trimmedCode} />
@@ -31,6 +38,8 @@ const CodeBlock = ({ language, code }: { language: string; code: string }) => {
             padding: "1rem",
             background: "transparent",
             margin: 0,
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
           }}
           showLineNumbers={true}
           wrapLines={true} // wrap long lines
